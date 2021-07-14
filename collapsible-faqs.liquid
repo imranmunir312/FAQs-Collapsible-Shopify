@@ -1,0 +1,111 @@
+<script crossorigin="anonymous" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="custom-section page-width">
+    {% if section.settings.section_heading %}
+        <h2>{{ section.settings.section_heading }}</h2>
+    {% endif %}
+    {% for block in section.blocks %}
+        {% case block.type %}
+            {% when 'faq' %}
+                <div class="custom-collapsible">
+                    <div class="custom-collapsible-header">
+                        <span>{{block.settings.collapsible_header}}</span>
+                        <svg class="custom-collapsible-icon" height="15" id="Capa_1" style="enable-background: new 0 0 512 512" version="1.1" viewbox="0 0 512 512" width="15" x="0px" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" y="0px">
+                            <g>
+                                <g>
+                                    <path d="M492,236H276V20c0-11.046-8.954-20-20-20c-11.046,0-20,8.954-20,20v216H20c-11.046,0-20,8.954-20,20s8.954,20,20,20h216    v216c0,11.046,8.954,20,20,20s20-8.954,20-20V276h216c11.046,0,20-8.954,20-20C512,244.954,503.046,236,492,236z"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="custom-collapsible-body">
+                        {{block.settings.collapsible_body }}
+                    </div>
+                </div>
+        {% endcase %}
+    {% endfor %}
+</div>
+
+<style>
+      .custom-collapsible-header {
+        padding: 25px 15px;
+        border-top: 1px solid #dedede;
+      }
+
+      .custom-collapsible:last-of-type {
+        border-top: none;
+        border-bottom: 1px solid #dedede;
+      }
+
+      .custom-collapsible-icon {
+        float: right;
+        transition: all 0.5s linear;
+      }
+
+      .custom-collapsible-icon.open {
+        transform: rotate(45deg);
+      }
+
+      .custom-collapsible-body {
+        display: none;
+        padding: 15px;
+        border: 1px solid #dedede;
+        border-bottom: none;
+      }
+    </style>
+
+<script>
+    $(".custom-collapsible-header").on("click", (e) => {
+        const $target = $(e.target);
+        $target
+            .parents(".custom-collapsible")
+            .find(".custom-collapsible-body")
+            .toggle("slow");
+
+        $target
+            .parents(".custom-collapsible")
+            .find(".custom-collapsible-icon")
+            .toggleClass("open");
+    });
+</script>
+
+{% schema %}
+{
+  "name": "FAQS",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Lorem Ipsum"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "collapsible_header",
+          "label": "Heading",
+          "default": "Lorem Ipsum"
+        },
+        {
+          "type": "richtext",
+          "id": "collapsible_body",
+          "label": "Body",
+          "default": "<p>Lorem Ipsum</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQs",
+      "category": "Custom Faqs"
+    }
+  ]
+}
+{% endschema %}
